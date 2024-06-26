@@ -1,118 +1,26 @@
 ﻿using System.Collections;
-
-class Program
+namespace Task_1
 {
-    static void Main(string[] args)
+    class Program
     {
-        Collection collection = new Collection();
-        Student student = new Student { passNum = "s1" };
-        Pensioneer pensioneer = new Pensioneer { passNum = "p1" };
-        Pensioneer pensioneer2 = new Pensioneer { passNum = "p2" };
-        Worker worker = new Worker { passNum = "w1" };
-
-        collection.AddToCollection(student);
-        collection.AddToCollection(pensioneer);
-        Console.WriteLine(collection.ReturnLast());
-        Console.WriteLine(collection.Contains(student));
-        collection.GetForeach();
-
-        foreach(var res in collection)
+        static void Main(string[] args)
         {
-            Console.WriteLine(res);
-        }
+            var collection = new Collection();
+            var student = new Student("s1");
+            var pensioneer = new Pensioneer("p1");
+            var pensioneer2 = new Pensioneer("p2");
+            var worker = new Worker("w1");
 
-    }
-}
+            collection.AddToCollection(student);
+            collection.AddToCollection(pensioneer);
+            Console.WriteLine(collection.ReturnLast());
+            Console.WriteLine(collection.Contains(student));
+            //collection.GetForeach();
 
-
-
-public abstract class Resident
-{
-    public string passNum;
-}
-
-public class Student : Resident;
-
-class Worker : Resident;
-
-class Pensioneer : Resident;
-
-public class Collection : IEnumerable
-{
-    public ArrayList arrayList = new ArrayList();
-
-    public int AddToCollection(Resident res)
-    {
-        if (res is Pensioneer)
-        { int lastIndexPensioneer = arrayList.LastIndexOf(res);
-            if (lastIndexPensioneer == -1)
+            foreach (var res in collection)
             {
-                arrayList.Insert(0, res);
+                Console.WriteLine(res);
             }
-            else
-            {
-                arrayList.Insert(lastIndexPensioneer + 1, res);
-            }
-            return arrayList.LastIndexOf(res) + 1;
-        }
-        arrayList.Add(res);
-        return arrayList.LastIndexOf(res) + 1;
-
-    }
-
-    public void RemoveFromCollection(Resident res)
-    {
-        if (arrayList.Contains(res))
-        {
-            arrayList.Remove(res);
-        }
-        else Console.WriteLine("Resident isnt in collection");
-    }
-
-    public void RemoveAtStartCollection()
-    {
-        if (arrayList.Count > 0)
-        {
-            arrayList.RemoveAt(0);
-        }
-        else Console.WriteLine("Collection is empty");
-    }
-
-    public (bool, int) Contains(Resident res)
-    {
-        bool collectionContains = arrayList.Contains(res);
-        int index = arrayList.IndexOf(res);
-        return (collectionContains, index);
-    }
-
-    public (Resident, int) ReturnLast()
-    {
-        int index = arrayList.Count - 1;
-        if (index < 0)
-            return (null, index);
-
-        Resident res = (Resident)arrayList[index];
-        return (res, index);
-    }
-
-    public void Clear()
-    {
-        arrayList.Clear();
-    }
-
-    public IEnumerator GetEnumerator()
-    {
-        return arrayList.GetEnumerator();
-    }
-
-
-    public void GetForeach()
-    {
-        foreach (Resident res in arrayList)
-        {
-            Console.WriteLine($"{res} {res.passNum}");
         }
     }
-
 }
-
